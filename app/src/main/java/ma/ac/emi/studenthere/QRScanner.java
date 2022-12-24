@@ -72,6 +72,8 @@ public class QRScanner extends AppCompatActivity {
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .build();
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this),new QRCodeImageAnalyzer(qrCode ->
+                Toast.makeText(this,qrCode,Toast.LENGTH_SHORT).show()));
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
 
