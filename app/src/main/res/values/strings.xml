@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Student Here</string>
     <string name="scan_qr">Scan the QR code</string>
+    <string name="attendance">Not attending any class right now</string>
 </resources>
