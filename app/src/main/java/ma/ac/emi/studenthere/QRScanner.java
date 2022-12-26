@@ -13,7 +13,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -72,8 +74,12 @@ public class QRScanner extends AppCompatActivity {
 
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .build();
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this),new QRCodeImageAnalyzer(qrCode ->
-                Toast.makeText(this,qrCode,Toast.LENGTH_SHORT).show()));
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this),new QRCodeImageAnalyzer(qrCode -> {
+            Intent data = new Intent();
+            data.setData(Uri.parse(qrCode));
+            setResult(RESULT_OK, data);
+            finish();
+        }));
 
         ImageCapture.Builder builder = new ImageCapture.Builder();
 
