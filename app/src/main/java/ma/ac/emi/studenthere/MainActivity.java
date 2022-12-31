@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView attendanceView;
     private ProgressBar loading;
     private Button button;
+    private Button btnHistory;
 
     private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, QRScanner.class);
         button.setOnClickListener(view ->
                 startActivityForResult(intent, QRCODE_RESULT ));
+
+        btnHistory = findViewById(R.id.btnHistory);
+        Intent intent1 = new Intent(this, HistoryActivity.class);
+        btnHistory.setOnClickListener(view -> startActivity(intent1));
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
                 new IntentFilter("response-attendance"));
