@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +22,17 @@ public class MainActivity extends AppCompatActivity {
 
     private final int QRCODE_RESULT = 101;
     private TextView attendanceView;
+    private ProgressBar loading;
+    private Button button;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button);
+        button = findViewById(R.id.button);
         attendanceView = findViewById(R.id.attendance);
+        loading = findViewById(R.id.progressBar);
 
         Intent intent = new Intent(this, QRScanner.class);
         button.setOnClickListener(view ->
@@ -42,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 String qrCode = data.getData().toString();
 
+                showLoading();
+
                 Toast.makeText(this,qrCode,Toast.LENGTH_SHORT).show();
                 getCourse();
             }
@@ -53,6 +61,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this,"failed",Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    // show a loading progress bar
+    // and hide everything else
+    private void showLoading() {
+        attendanceView.setVisibility(View.GONE);
+        button.setVisibility(View.GONE);
+        loading.setVisibility(View.VISIBLE);
     }
 
     private void getCourse() {
