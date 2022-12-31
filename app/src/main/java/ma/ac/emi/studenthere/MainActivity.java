@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             if (data != null) {
                 String qrCode = data.getData().toString();
 
+                Toast.makeText(this,qrCode,Toast.LENGTH_SHORT).show();
                 getCourse();
             }
             else {
