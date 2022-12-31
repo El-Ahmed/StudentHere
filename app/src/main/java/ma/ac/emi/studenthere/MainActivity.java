@@ -2,9 +2,14 @@ package ma.ac.emi.studenthere;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -25,6 +30,16 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loading;
     private Button button;
 
+    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String message = intent.getStringExtra("message");
+            Toast.makeText(context,message,Toast.LENGTH_LONG).show();
+            stopLoading();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(view ->
                 startActivityForResult(intent, QRCODE_RESULT ));
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("response-attendance"));
     }
 
     @Override
@@ -46,12 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
         if (resultCode == RESULT_OK) {
             if (data != null) {
-                String qrCode = data.getData().toString();
-
                 showLoading();
 
-                Toast.makeText(this,qrCode,Toast.LENGTH_SHORT).show();
-                getCourse();
+                String qrCode = data.getData().toString();
+                Intent attendingIntent = new Intent(this, AttendanceService.class);
+                attendingIntent.putExtra("qrCode", qrCode);
+
+
+                startService(attendingIntent);
             }
             else {
                 Toast.makeText(this,"failed",Toast.LENGTH_SHORT).show();
@@ -63,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void stopLoading() {
+
+        loading.setVisibility(View.GONE);
+        attendanceView.setVisibility(View.VISIBLE);
+        button.setVisibility(View.VISIBLE);
+    }
+
+
     // show a loading progress bar
     // and hide everything else
     private void showLoading() {
@@ -71,29 +98,4 @@ public class MainActivity extends AppCompatActivity {
         loading.setVisibility(View.VISIBLE);
     }
 
-    private void getCourse() {
-
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://c3b6072f-1301-40fe-b039-f0ed1358da3b.mock.pstmn.io/course";
-
-// Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        attendanceView.setText("Attending " + response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                attendanceView.setText("Failed. Try again");
-            }
-        });
-
-// Add the request to the RequestQueue.
-        queue.add(stringRequest);
-
-    }
 }
