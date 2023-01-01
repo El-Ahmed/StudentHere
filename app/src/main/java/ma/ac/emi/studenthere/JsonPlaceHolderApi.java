@@ -5,6 +5,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Query;
 
 public interface JsonPlaceHolderApi {
 
@@ -15,4 +16,6 @@ public interface JsonPlaceHolderApi {
     @GET("lastHistory")
     Call<History> getLastHistory(@Header("Authorization") String authHeader);
 
+    @GET("attend")
+    Call<History> attend(@Query("qrCode") String qrCode, @Header("Authorization") String authHeader);
 }

@@ -40,12 +40,25 @@ public class MainActivity extends AppCompatActivity {
     private Button button;
     private Button btnHistory;
 
-    private final BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver attendedReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Get extra data included in the Intent
-            String message = intent.getStringExtra("message");
-            Toast.makeText(context,message,Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"Attended",Toast.LENGTH_LONG).show();
+            stopLoading();
+        }
+    };
+    private final BroadcastReceiver notConnectedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context,"Login Expired",Toast.LENGTH_LONG).show();
+            stopLoading();
+            login();
+        }
+    };
+    private final BroadcastReceiver wrongQrReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "Wrong QR code", Toast.LENGTH_LONG).show();
             stopLoading();
         }
     };
@@ -77,8 +90,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent1 = new Intent(this, HistoryActivity.class);
         btnHistory.setOnClickListener(view -> startActivity(intent1));
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("response-attendance"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(attendedReceiver,
+                new IntentFilter("attended"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(notConnectedReceiver,
+                new IntentFilter("not-connected"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(wrongQrReceiver,
+                new IntentFilter("wrong-qr"));
     }
 
     @Override

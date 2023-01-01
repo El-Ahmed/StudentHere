@@ -1,13 +1,24 @@
 package ma.ac.emi.studenthere;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AttendanceService extends IntentService {
 
@@ -26,25 +37,46 @@ public class AttendanceService extends IntentService {
 
     private void getCourse(String qrCode) {
 
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url = "https://c3b6072f-1301-40fe-b039-f0ed1358da3b.mock.pstmn.io/course";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Server.ADDRESS_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                response -> {
-                    // Display the first 500 characters of the response string.
-                    Intent broadcastIntent = new Intent("response-attendance");
-                    broadcastIntent.putExtra("message", response);
-                    sendLocalBroadcast(broadcastIntent);
-                }, error -> {
-                    Intent broadcastIntent = new Intent("response-attendance");
-                    broadcastIntent.putExtra("error", error);
-                    sendLocalBroadcast(broadcastIntent);
-                });
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        Call<History> call = jsonPlaceHolderApi.attend(qrCode, getToken());
 
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        call.enqueue(new Callback<History>() {
+             @Override
+             public void onResponse(Call<History> call, Response<History> response) {
+
+                 // not connected
+                 if (response.code() == 401) {
+
+                     Intent broadcastIntent = new Intent("not-connected");
+                     sendLocalBroadcast(broadcastIntent);
+                     return;
+                 }
+
+                 // wrong qr Code
+                 if (!response.isSuccessful()) {
+
+
+
+                     Intent broadcastIntent = new Intent("wrong-qr");
+                     sendLocalBroadcast(broadcastIntent);
+                     return;
+                 }
+                 // connected and good qr code
+                 Intent broadcastIntent = new Intent("attended");
+                 sendLocalBroadcast(broadcastIntent);
+             }
+
+            @Override
+            public void onFailure(Call<History> call, Throwable t) {
+                Toast.makeText(AttendanceService.this, "Failed to connect to the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }
@@ -53,5 +85,11 @@ public class AttendanceService extends IntentService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
+    // get the token
+    private String getToken() {
+        SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+        String token=sp.getString("token","notconnected");
+        return "Bearer "+token;
+    }
 
 }
