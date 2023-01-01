@@ -2,6 +2,8 @@ package ma.ac.emi.studenthere;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,16 +26,17 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         loadHistoryList();
+
     }
 
     private void loadHistoryList(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://mocki.io/v1/")
+                .baseUrl(Server.ADDRESS_API)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        Call<List<History>> call = jsonPlaceHolderApi.getHistories();
+        Call<List<History>> call = jsonPlaceHolderApi.getHistories(getToken());
 
         call.enqueue(new Callback<List<History>>() {
             @Override
@@ -58,5 +61,12 @@ public class HistoryActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list);
         // Attach the adapter to a ListView
         listView.setAdapter(adapter);
+    }
+
+    // get the token
+    private String getToken() {
+        SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+        String token=sp.getString("token","notconnected");
+        return "Bearer "+token;
     }
 }
