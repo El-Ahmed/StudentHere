@@ -76,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent0);
         }
 
-        getLastHistory();
 
         button = findViewById(R.id.button);
         attendanceView = findViewById(R.id.attendance);
@@ -96,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
                 new IntentFilter("not-connected"));
         LocalBroadcastManager.getInstance(this).registerReceiver(wrongQrReceiver,
                 new IntentFilter("wrong-qr"));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLastHistory();
     }
 
     @Override
