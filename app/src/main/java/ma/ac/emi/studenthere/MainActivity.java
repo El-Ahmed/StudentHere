@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //check if connected
+        SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+        String token=sp.getString("token","notconnected");
+        Intent intent0 = new Intent(this, LoginActivity.class);
+        if(token.equals("notconnected")){
+            startActivity(intent0);
+        }
 
         button = findViewById(R.id.button);
         attendanceView = findViewById(R.id.attendance);
