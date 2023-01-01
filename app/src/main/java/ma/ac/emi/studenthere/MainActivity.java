@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(context,"Attended",Toast.LENGTH_LONG).show();
             stopLoading();
+            getLastHistory();
         }
     };
     private final BroadcastReceiver notConnectedReceiver = new BroadcastReceiver() {
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         String token=sp.getString("token","notconnected");
         return "Bearer "+token;
     }
+
 
     private void login() {
         Intent intent0 = new Intent(this, LoginActivity.class);
