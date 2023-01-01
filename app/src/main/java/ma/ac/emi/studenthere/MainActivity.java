@@ -101,7 +101,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getLastHistory();
+
+        if (!getToken().equals("Bearer notconnected")) {
+            getLastHistory();
+        }
     }
 
     @Override
