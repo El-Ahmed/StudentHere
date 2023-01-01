@@ -32,10 +32,10 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         TextView teacherName = (TextView) convertView.findViewById(R.id.teacherName);
 
         // Populate the data into the template view using the data object
-        courseName.setText(history.courseName);
-        date.setText(history.date);
-        presence.setText(history.presence);
-        teacherName.setText(history.teacherName);
+        courseName.setText(history.getCourseName());
+        date.setText(history.getDate());
+        presence.setText(history.getPresence());
+        teacherName.setText(history.getTeacherName());
 
         // Return the completed view to render on screen
         return convertView;
