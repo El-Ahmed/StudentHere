@@ -17,14 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,8 +66,13 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
         String token=sp.getString("token","notconnected");
         Intent intent0 = new Intent(this, LoginActivity.class);
-        if(token.equals("notconnected")){
-            startActivity(intent0);
+
+        // make sure onCreate wasn't called twice
+        if (savedInstanceState == null) {
+            if(token.equals("notconnected")){
+                Log.d("login0", "onCreate: ");
+                startActivity(intent0);
+            }
         }
 
 
@@ -190,8 +188,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void login() {
+        Log.d("login0", "func: ");
         Intent intent0 = new Intent(this, LoginActivity.class);
         startActivity(intent0);
+
     }
 
 }
