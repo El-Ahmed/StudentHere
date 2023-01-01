@@ -15,13 +15,13 @@ public class History {
     @SerializedName("date")
     private Date date;
 
-    @SerializedName("presence")
-    private String presence;
+    @SerializedName("present")
+    private Boolean presence;
 
     @SerializedName("teacherName")
     private String teacherName;
 
-    public History(String courseName, Date date, String presence, String teacherName) {
+    public History(String courseName, Date date, Boolean presence, String teacherName) {
         this.courseName = courseName;
         this.date = date;
         this.presence = presence;
@@ -44,11 +44,11 @@ public class History {
         this.date = date;
     }
 
-    public String getPresence() {
+    public Boolean getPresence() {
         return presence;
     }
 
-    public void setPresence(String presence) {
+    public void setPresence(Boolean presence) {
         this.presence = presence;
     }
 

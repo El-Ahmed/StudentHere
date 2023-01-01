@@ -3,6 +3,7 @@ package ma.ac.emi.studenthere;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -41,6 +42,12 @@ public class HistoryActivity extends AppCompatActivity {
         call.enqueue(new Callback<List<History>>() {
             @Override
             public void onResponse(Call<List<History>> call, Response<List<History>> response) {
+                if(response.code()==401) {
+
+                    Toast.makeText(HistoryActivity.this, "Login Expired", Toast.LENGTH_SHORT).show();
+                    login();
+                    return;
+                }
                 if(!response.isSuccessful()){
                     Toast.makeText(HistoryActivity.this, "Code: " + response.code() ,Toast.LENGTH_LONG).show();
                     return;
@@ -68,5 +75,9 @@ public class HistoryActivity extends AppCompatActivity {
         SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
         String token=sp.getString("token","notconnected");
         return "Bearer "+token;
+    }
+    private void login() {
+        Intent intent0 = new Intent(this, LoginActivity.class);
+        startActivity(intent0);
     }
 }
