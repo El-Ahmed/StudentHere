@@ -1,16 +1,16 @@
 package ma.ac.emi.studenthere.login;
 
 public class LoginResponse {
-    private String jwttoken;
+    private String token;
 
-    public LoginResponse(String jwttoken) {
-        this.jwttoken = jwttoken;
+    public LoginResponse(String token) {
+        this.token = token;
     }
     public String getToken() {
-        return jwttoken;
+        return token;
     }
 
     public void setToken(String token) {
-        this.jwttoken = token;
+        this.token = token;
     }
 }
