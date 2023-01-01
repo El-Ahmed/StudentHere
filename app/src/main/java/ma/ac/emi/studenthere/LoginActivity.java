@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginButton);
         //api url
-        userService= RetrofitClient.getClient("http://192.168.1.4:8080/").create(UserService.class);
+        userService= RetrofitClient.getClient(Server.ADDRESS_API).create(UserService.class);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
