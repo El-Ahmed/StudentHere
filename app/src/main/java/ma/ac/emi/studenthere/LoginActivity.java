@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import ma.ac.emi.studenthere.login.LoginRequest;
 import ma.ac.emi.studenthere.login.LoginResponse;
 import ma.ac.emi.studenthere.login.RetrofitClient;
 import ma.ac.emi.studenthere.login.UserService;
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginButton);
         //api url
-        userService= RetrofitClient.getClient("https://mocki.io/v1/").create(UserService.class);
+        userService= RetrofitClient.getClient("http://192.168.1.4:8080/").create(UserService.class);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     //login function
     private void doLogin(final String username,final String password){
-        Call<LoginResponse> call = userService.login(username,password);
+        Call<LoginResponse> call = userService.login(new LoginRequest(username, password));
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
