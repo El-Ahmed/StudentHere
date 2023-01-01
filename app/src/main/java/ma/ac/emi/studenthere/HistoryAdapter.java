@@ -33,7 +33,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
 
         // Populate the data into the template view using the data object
         courseName.setText(history.getCourseName());
-        date.setText(history.getDate());
+        date.setText(history.getDate().toLocaleString());
         presence.setText(history.getPresence());
         teacherName.setText(history.getTeacherName());
 

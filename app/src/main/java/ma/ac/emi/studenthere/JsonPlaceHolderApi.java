@@ -11,4 +11,8 @@ public interface JsonPlaceHolderApi {
     //example url/posts
     @GET("history")
     Call<List<History>> getHistories(@Header("Authorization") String authHeader);
+
+    @GET("lastHistory")
+    Call<History> getLastHistory(@Header("Authorization") String authHeader);
+
 }

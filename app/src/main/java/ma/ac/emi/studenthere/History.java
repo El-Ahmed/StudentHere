@@ -3,6 +3,8 @@ package ma.ac.emi.studenthere;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class History {
 
     private int id;
@@ -11,7 +13,7 @@ public class History {
     private String courseName;
 
     @SerializedName("date")
-    private String date;
+    private Date date;
 
     @SerializedName("presence")
     private String presence;
@@ -19,7 +21,7 @@ public class History {
     @SerializedName("teacherName")
     private String teacherName;
 
-    public History(String courseName, String date, String presence, String teacherName) {
+    public History(String courseName, Date date, String presence, String teacherName) {
         this.courseName = courseName;
         this.date = date;
         this.presence = presence;
@@ -34,11 +36,11 @@ public class History {
         this.courseName = courseName;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

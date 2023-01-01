@@ -19,10 +19,18 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         if(token.equals("notconnected")){
             startActivity(intent0);
         }
+
+        getLastHistory();
 
         button = findViewById(R.id.button);
         attendanceView = findViewById(R.id.attendance);
@@ -110,6 +120,51 @@ public class MainActivity extends AppCompatActivity {
         attendanceView.setVisibility(View.GONE);
         button.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
+    }
+
+    private void getLastHistory() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Server.ADDRESS_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        Call<History> call = jsonPlaceHolderApi.getLastHistory(getToken());
+
+        call.enqueue(new Callback<History>() {
+            @Override
+            public void onResponse(Call<History> call, Response<History> response) {
+                if (response.code() == 401) {
+                    login();
+                    return;
+                }
+                if(!response.isSuccessful()){
+//                    Toast.makeText(HistoryActivity.this, "Code: " + response.code() ,Toast.LENGTH_LONG).show();
+                    return;
+                }
+                History history = response.body();
+
+                attendanceView.setText("Last attended subject was "+history.getCourseName()+" in "+ history.getDate().toLocaleString());
+
+            }
+
+            @Override
+            public void onFailure(Call<History> call, Throwable t) {
+
+            }
+        });
+    }
+
+    // get the token
+    private String getToken() {
+        SharedPreferences sp = getSharedPreferences("LoginFile", Context.MODE_PRIVATE);
+        String token=sp.getString("token","notconnected");
+        return "Bearer "+token;
+    }
+
+    private void login() {
+        Intent intent0 = new Intent(this, LoginActivity.class);
+        startActivity(intent0);
     }
 
 }
