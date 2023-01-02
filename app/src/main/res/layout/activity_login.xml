@@ -13,7 +13,6 @@
         android:layout_marginTop="100dp"
         android:fontFamily="sans-serif-medium"
         android:text="Login"
-        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
