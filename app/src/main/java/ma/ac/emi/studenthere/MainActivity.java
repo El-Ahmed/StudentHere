@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar loading;
     private Button button;
     private Button btnHistory;
+    private Button signoutBtn;
 
     private final BroadcastReceiver attendedReceiver = new BroadcastReceiver() {
         @Override
@@ -87,6 +88,19 @@ public class MainActivity extends AppCompatActivity {
         btnHistory = findViewById(R.id.btnHistory);
         Intent intent1 = new Intent(this, HistoryActivity.class);
         btnHistory.setOnClickListener(view -> startActivity(intent1));
+
+        //logout
+        signoutBtn=findViewById(R.id.signoutBtn);
+        signoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences sharedPreferences = getSharedPreferences("LoginFile",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token","notconnected");
+                editor.commit();
+                login();
+            }
+        });
 
         LocalBroadcastManager.getInstance(this).registerReceiver(attendedReceiver,
                 new IntentFilter("attended"));
@@ -193,5 +207,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent0);
 
     }
+
 
 }
