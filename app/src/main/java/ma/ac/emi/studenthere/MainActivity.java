@@ -162,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getLastHistory() {
+        attendanceView.setText(getString(R.string.attendance));
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Server.ADDRESS_API)
                 .addConverterFactory(GsonConverterFactory.create())
