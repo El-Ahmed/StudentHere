@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 History history = response.body();
 
-                attendanceView.setText("Last attended subject was "+history.getCourseName()+" in "+ history.getDate().toLocaleString());
+                attendanceView.setText("Last attend: \n"+history.getCourseName()+" / "+history.getDate().toLocaleString());
 
             }
 
