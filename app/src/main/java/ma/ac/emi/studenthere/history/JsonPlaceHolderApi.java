@@ -1,7 +1,8 @@
-package ma.ac.emi.studenthere;
+package ma.ac.emi.studenthere.history;
 
 import java.util.List;
 
+import ma.ac.emi.studenthere.history.History;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

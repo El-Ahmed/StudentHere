@@ -18,7 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import ma.ac.emi.studenthere.history.History;
+import ma.ac.emi.studenthere.history.JsonPlaceHolderApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

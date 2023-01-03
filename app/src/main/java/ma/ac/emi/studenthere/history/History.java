@@ -1,4 +1,4 @@
-package ma.ac.emi.studenthere;
+package ma.ac.emi.studenthere.history;
 
 
 import com.google.gson.annotations.SerializedName;

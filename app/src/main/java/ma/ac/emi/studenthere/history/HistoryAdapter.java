@@ -1,4 +1,4 @@
-package ma.ac.emi.studenthere;
+package ma.ac.emi.studenthere.history;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+
+import ma.ac.emi.studenthere.R;
+import ma.ac.emi.studenthere.history.History;
 
 public class HistoryAdapter extends ArrayAdapter<History> {
 

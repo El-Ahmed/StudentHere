@@ -4,16 +4,12 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
+import ma.ac.emi.studenthere.history.History;
+import ma.ac.emi.studenthere.history.JsonPlaceHolderApi;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
