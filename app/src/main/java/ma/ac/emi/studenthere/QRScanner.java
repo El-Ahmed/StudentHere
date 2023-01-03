@@ -11,7 +11,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,6 +21,8 @@ import android.widget.Toast;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.ExecutionException;
+
+import ma.ac.emi.studenthere.qrcode.QRCodeImageAnalyzer;
 
 public class QRScanner extends AppCompatActivity {
 

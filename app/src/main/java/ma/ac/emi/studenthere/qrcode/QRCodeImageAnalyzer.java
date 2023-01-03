@@ -1,16 +1,12 @@
-package ma.ac.emi.studenthere;
+package ma.ac.emi.studenthere.qrcode;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.media.Image;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -19,6 +15,8 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.util.List;
+
+import ma.ac.emi.studenthere.qrcode.QRCodeFoundListener;
 
 public class QRCodeImageAnalyzer implements ImageAnalysis.Analyzer{
     private final BarcodeScannerOptions options;
